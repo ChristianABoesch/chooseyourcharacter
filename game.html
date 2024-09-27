@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Platformer Game</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #gameCanvas { background: lightgreen; display: block; margin: auto; }
+        .character { width: 50px; height: 50px; position: absolute; background-color: red; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let character;
+
+        // Get character from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedCharacter = urlParams.get('character');
+
+        // Set character properties based on selection
+        if (selectedCharacter === 'character1') {
+            character = { x: 50, y: 300, color: 'red' };
+        } else if (selectedCharacter === 'character2') {
+            character = { x: 50, y: 300, color: 'blue' };
+        } else if (selectedCharacter === 'character3') {
+            character = { x: 50, y: 300, color: 'yellow' };
+        }
+
+        function drawCharacter() {
+            ctx.fillStyle = character.color;
+            ctx.fillRect(character.x, character.y, 50, 50);
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawCharacter();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>

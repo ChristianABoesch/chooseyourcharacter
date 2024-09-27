@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Selection Game</title>
+    <style>
+        .character1 {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+            background-color: red;
+            cursor: pointer;
+        }
+        .character2 {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+            background-color: blue;
+            cursor: pointer;
+        }
+        .character3 {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+            background-color: yellow;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Your Character</h1>
+    <div class="character1" onmouseover="playSound()" onclick="startGame('character1')"></div>
+    <div class="character2" onmouseover="playSound()" onclick="startGame('character2')"></div>
+    <div class="character3" onmouseover="playSound()" onclick="startGame('character3')"></div>
+
+    <audio id="hoverSound" src="audio/jump.wav"></audio>
+
+    <script>
+        function playSound() {
+            document.getElementById('hoverSound').play();
+        }
+
+        function startGame(character) {
+            // Redirect to the game level with the selected character
+            window.location.href = `game.html?character=${character}`;
+        }
+    </script>
+</body>
+</html>
