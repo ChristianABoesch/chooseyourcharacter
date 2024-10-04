@@ -8,14 +8,18 @@
         body { margin: 0; overflow: hidden; }
         #gameCanvas { background: lightgreen; display: block; margin: auto; }
         .character { width: 50px; height: 50px; position: absolute; background-color: red; }
+        .coin { width: 20px; height: 20px; position: absolute; background-color: gold; border-radius: 50%; }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <audio id="coinSound" src="audio/coin.wav"></audio> <!-- Add coin sound audio element -->
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         let character;
+        let coins = [];
+        let score = 0;
 
         // Get character from URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -23,11 +27,29 @@
 
         // Set character properties based on selection
         if (selectedCharacter === 'character1') {
-            character = { x: 50, y: 300, color: 'red' };
+            character = { x: 50, y: 300, color: 'red', speed: 2 };
         } else if (selectedCharacter === 'character2') {
-            character = { x: 50, y: 300, color: 'blue' };
+            character = { x: 50, y: 300, color: 'blue', speed: 2 };
         } else if (selectedCharacter === 'character3') {
-            character = { x: 50, y: 300, color: 'yellow' };
+            character = { x: 50, y: 300, color: 'yellow', speed: 2 };
+        }
+
+        // Movement flags
+        let moveLeft = false;
+        let moveRight = false;
+        let moveUp = false;
+        let moveDown = false;
+
+        // Generate coins
+        function generateCoins(num) {
+            for (let i = 0; i < num; i++) {
+                const coin = {
+                    x: Math.random() * (canvas.width - 20),
+                    y: Math.random() * (canvas.height - 20),
+                    collected: false
+                };
+                coins.push(coin);
+            }
         }
 
         function drawCharacter() {
@@ -35,12 +57,105 @@
             ctx.fillRect(character.x, character.y, 50, 50);
         }
 
+        function drawCoins() {
+            coins.forEach(coin => {
+                if (!coin.collected) {
+                    ctx.fillStyle = 'gold';
+                    ctx.beginPath();
+                    ctx.arc(coin.x + 10, coin.y + 10, 10, 0, Math.PI * 2); // Adjusted position and radius
+                    ctx.fill();
+                }
+            });
+        }
+
+        function updateCharacterPosition() {
+            if (moveLeft && character.x > 0) {
+                character.x -= character.speed;
+            }
+            if (moveRight && character.x < canvas.width - 50) {
+                character.x += character.speed;
+            }
+            if (moveUp && character.y > 0) {
+                character.y -= character.speed;
+            }
+            if (moveDown && character.y < canvas.height - 50) {
+                character.y += character.speed;
+            }
+        }
+
+        function checkCoinCollection() {
+            let allCollected = true; // Flag to check if all coins are collected
+            coins.forEach(coin => {
+                if (!coin.collected && 
+                    character.x < coin.x + 20 && 
+                    character.x + 50 > coin.x && 
+                    character.y < coin.y + 20 && 
+                    character.y + 50 > coin.y) {
+                    coin.collected = true;
+                    score++;
+                    playCoinSound(); // Play coin sound when collected
+                }
+                if (!coin.collected) {
+                    allCollected = false; // If any coin is not collected, set flag to false
+                }
+            });
+
+            if (allCollected) {
+                // Redirect to index.html when all coins are collected
+                window.location.href = 'index.html';
+            }
+        }
+
+        function playCoinSound() {
+            const sound = document.getElementById('coinSound');
+            sound.currentTime = 0; // Reset the sound to the start
+            sound.play(); // Play the sound
+        }
+
+        window.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'ArrowLeft':
+                    moveLeft = true;
+                    break;
+                case 'ArrowRight':
+                    moveRight = true;
+                    break;
+                case 'ArrowUp':
+                    moveUp = true;
+                    break;
+                case 'ArrowDown':
+                    moveDown = true;
+                    break;
+            }
+        });
+
+        window.addEventListener('keyup', (event) => {
+            switch (event.key) {
+                case 'ArrowLeft':
+                    moveLeft = false;
+                    break;
+                case 'ArrowRight':
+                    moveRight = false;
+                    break;
+                case 'ArrowUp':
+                    moveUp = false;
+                    break;
+                case 'ArrowDown':
+                    moveDown = false;
+                    break;
+            }
+        });
+
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            updateCharacterPosition();
+            checkCoinCollection();
             drawCharacter();
+            drawCoins();
             requestAnimationFrame(gameLoop);
         }
 
+        generateCoins(10); // Generate 10 coins
         gameLoop();
     </script>
 </body>

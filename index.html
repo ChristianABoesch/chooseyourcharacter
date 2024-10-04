@@ -29,6 +29,9 @@
             background-color: yellow;
             cursor: pointer;
         }
+        .character4 {
+            background-color: green; /* New character color */
+        }
     </style>
 </head>
 <body>
@@ -36,12 +39,27 @@
     <div class="character1" onmouseover="playSound()" onclick="startGame('character1')"></div>
     <div class="character2" onmouseover="playSound()" onclick="startGame('character2')"></div>
     <div class="character3" onmouseover="playSound()" onclick="startGame('character3')"></div>
+    <div class="character4" onmouseover="playSound()" onclick="startGame('character4')"></div>
 
     <audio id="hoverSound" src="audio/jump.wav"></audio>
 
     <script>
+        // Check how many times the player has returned to index.html
+        let returnCount = localStorage.getItem('returnCount') ? parseInt(localStorage.getItem('returnCount')) : 0;
+
+        // Increment the return count
+        returnCount++;
+        localStorage.setItem('returnCount', returnCount);
+
+        // Show the fourth character after the third return
+        if (returnCount === 3) {
+            document.getElementById('character4').style.display = 'inline-block'; // Show the fourth character
+        }
+
         function playSound() {
-            document.getElementById('hoverSound').play();
+            const sound = document.getElementById('hoverSound');
+            sound.currentTime = 0; // Reset the sound to the start
+            sound.play(); // Play the sound
         }
 
         function startGame(character) {
