@@ -10,4 +10,7 @@
 - [ ] Add dialogue or text corresponding to characters
 - [ ] Personalize characters?
 - [ ] Find images to better represent characters
-
+- [ ] Add new coin sizes and assign monetary values to each
+- [ ] Put a counter with how much money you've earned
+- [ ] Put a counter of how long it takes you to go through a single game
+- [ ] After first game, show hi-score
