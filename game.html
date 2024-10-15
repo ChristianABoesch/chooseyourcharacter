@@ -14,6 +14,11 @@
 <body>
     <canvas id="gameCanvas" width="800" height="400"></canvas>
     <audio id="coinSound" src="audio/coin.wav"></audio> <!-- Add coin sound audio element -->
+    <audio id="background-music" loop>
+        <source src="audio/chooseyourcharacter_musicloop.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -159,6 +164,12 @@
 
         generateCoins(10); // Generate 10 coins
         gameLoop();
+
+        // Start playing the music when the page loads
+        window.onload = function() {
+            var music = document.getElementById('background-music');
+            music.play();
+        };
     </script>
 </body>
 </html>

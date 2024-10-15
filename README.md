@@ -6,9 +6,9 @@
 - [x] Allowed player to return to home page after completing level objective
 - [x] Add dialogue or text corresponding to characters
 - [x] Personalize characters
+- [x] Add music
 
 ## Future Additions
-- [ ] Add music
 - [ ] Find images to better represent characters
 - [ ] Add a nicer background in the character select page
 - [ ] Add new coin sizes and assign monetary values to each

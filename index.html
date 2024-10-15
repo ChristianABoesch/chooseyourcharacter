@@ -68,8 +68,17 @@
 
     <audio id="hoverSound" src="audio/jump.wav"></audio>
 
+    <!-- Add this to your HTML file -->
+    <audio id="background-music" loop>
+        <source src="audio/chooseyourcharacter_musicloop.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Include the audio player iframe -->
+    <iframe src="audio-player.html" style="display:none;"></iframe>
+
     <p>- Bobby, a good-for-nothing rebel who has a knack for getting into trouble</p>
-    <p>- Tommy, an intellgent yet reclusive individual who tends to have his head stuck in a book in his free time</p>
+    <p>- Tommy, an intelligent yet reclusive individual who tends to have his head stuck in a book in his free time</p>
     <p>- Holly, a carefree youngun who sells lemonade on the weekend and enjoys walking all 7 of her dogs</p>
     <p>- Jip, a peanut vendor</p>
 
@@ -96,6 +105,12 @@
             // Redirect to the game level with the selected character
             window.location.href = `game.html?character=${character}`;
         }
+
+        // Start playing the music when the page loads
+        window.onload = function() {
+            var music = document.getElementById('background-music');
+            music.play();
+        };
     </script>
 </body>
 </html>
